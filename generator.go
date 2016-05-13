@@ -7,7 +7,6 @@ import (
   "bytes"
   "time"
   "strconv"
-  "strings"
   "math"
 )
 
@@ -24,7 +23,7 @@ func GenerateName(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (
   var nameBuffer bytes.Buffer
 
   for i := 0; i < adjectiveAmount; i++ {
-    adj, err := getRandomLineFromString(adjectives)
+    adj, err := getRandomAdjective()
     if err != nil {
       return "", err
     }
@@ -32,7 +31,7 @@ func GenerateName(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (
   }
 
   for i := 0; i < nounAmount; i++ {
-    noun, err := getRandomLineFromString(nouns)
+    noun, err := getRandomNoun()
     if err != nil {
       return "", err
     }
@@ -48,8 +47,8 @@ func GenerateName(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (
 
 // GetPossibilities returns the amount of possible Names with the given parameters.
 func GetPossibilities(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (float64) {
-  return math.Pow(float64(len(readLinesString(adjectives))), float64(adjectiveAmount)) *
-       math.Pow(float64(len(readLinesString(nouns))), float64(nounAmount)) *
+  return math.Pow(float64(len(adjectives)), float64(adjectiveAmount)) *
+       math.Pow(float64(len(nouns)), float64(nounAmount)) *
        math.Pow(10, float64(randomNumberPlaces))
 }
 
@@ -81,9 +80,25 @@ func GenerateNameWithFiles(adjectiveAmount int, nounAmount int, randomNumberPlac
   return nameBuffer.String(), nil
 }
 
-func getRandomLineFromString(data string) (string, error) {
-  lines := readLinesString(data)
+func getRandomAdjective() (string, error) {
+  line := adjectives[random.Intn(len(adjectives))]
+  for line == "" {
+    line = adjectives[random.Intn(len(adjectives))]
+  }
 
+  return line, nil
+}
+
+func getRandomNoun() (string, error) {
+  line := nouns[random.Intn(len(nouns))]
+  for line == "" {
+    line = nouns[random.Intn(len(nouns))]
+  }
+
+  return line, nil
+}
+
+func getRandomLineFromStringArray(lines []string) (string, error) {
   line := lines[random.Intn(len(lines))]
   for line == "" {
     line = lines[random.Intn(len(lines))]
@@ -100,10 +115,6 @@ func getRandomLineFromFile(path string) (string, error) {
   }
 
   return lines[random.Intn(len(lines))], nil
-}
-
-func readLinesString(data string) ([]string) {
-  return strings.Split(data, "\n")
 }
 
 func readFile(path string) ([]string, error) {
