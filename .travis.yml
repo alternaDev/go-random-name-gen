@@ -5,4 +5,8 @@ go:
   - 1.5
   - 1.6
   - tip
+
+install:
+  - echo No Dependencies Required.
+
 script: go test ./...
