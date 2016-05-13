@@ -18,16 +18,17 @@ var (
 )
 
 
-// GenerateName generates a Random Name with adjectiveAmount Adjectives, nounAmount Nouns and a random Number with randomNumberPlaces places.
-func GenerateName(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (string, error) {
-  return GenerateNameWithSeed(adjectiveAmount, nounAmount, randomNumberPlaces, time.Now().UnixNano())
-}
-
 // GenerateNameWithSeed generates a Random Name with adjectiveAmount Adjectives, nounAmount Nouns and a random Number with randomNumberPlaces places.
 // The Random Generator uses the specified number as a seed.
 func GenerateNameWithSeed(adjectiveAmount int, nounAmount int, randomNumberPlaces int, seed int64) (string, error) {
-  var nameBuffer bytes.Buffer
   random = rand.New(rand.NewSource(seed))
+
+  return GenerateName(adjectiveAmount, nounAmount, randomNumberPlaces)
+}
+
+// GenerateName generates a Random Name with adjectiveAmount Adjectives, nounAmount Nouns and a random Number with randomNumberPlaces places.
+func GenerateName(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (string, error) {
+  var nameBuffer bytes.Buffer
   for i := 0; i < adjectiveAmount; i++ {
     adj, err := getRandomAdjective()
     if err != nil {
