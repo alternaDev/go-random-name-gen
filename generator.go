@@ -8,6 +8,7 @@ import (
   "time"
   "strconv"
   "strings"
+  "math"
 )
 
 //go:generate go run scripts/includetxt.go
@@ -43,6 +44,13 @@ func GenerateName(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (
   }
 
   return nameBuffer.String(), nil
+}
+
+// GetPossibilities returns the amount of possible Names with the given parameters.
+func GetPossibilities(adjectiveAmount int, nounAmount int, randomNumberPlaces int) (float64) {
+  return math.Pow(float64(len(readLinesString(adjectives))), float64(adjectiveAmount)) *
+       math.Pow(float64(len(readLinesString(nouns))), float64(nounAmount)) *
+       math.Pow(10, float64(randomNumberPlaces))
 }
 
 // GenerateNameWithFiles generates a Random Name with adjectiveAmount Adjectives, nounAmount Nouns and a random Number with randomNumberPlaces places.

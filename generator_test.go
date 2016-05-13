@@ -13,3 +13,7 @@ func TestGenerator(t *testing.T) {
 
   fmt.Println(nameString)
 }
+
+func TestPossibilities(t *testing.T) {
+  fmt.Println(GetPossibilities(1, 1, 3))
+}
