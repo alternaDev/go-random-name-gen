@@ -13,7 +13,7 @@ import (
 func main() {
     fs, _ := ioutil.ReadDir(".")
     out, _ := os.Create("textfiles.go")
-    out.Write([]byte("package main \n\nvar (\n"))
+    out.Write([]byte("package nameGen \n\nvar (\n"))
     for _, f := range fs {
         if strings.HasSuffix(f.Name(), ".txt") {
             lines, _ := readFile(f.Name())
